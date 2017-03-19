@@ -47,6 +47,31 @@ class GroupsController < ApplicationController
     redirect_to groups_path, alert: 'Group Deleted'
   end
 
+  def join
+    @group = Group.find(params[:id])
+
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+      flash[:notice] = 'Joined group'
+    else
+      flash[:warning] = 'You are member'
+    end
+
+    redirect_to group_path(@group)
+  end
+
+  def quit
+    @group = Group.find(params[:id])
+
+    if current_user.is_member_of?(@group)
+      current_user.quit!(@group)
+      flash[:alert] = "Quited group"
+    else
+      flash[:warning] = "Unable to quit, you are not member"
+    end
+
+    redirect_to group_path(@group)
+  end
 
   private
 
