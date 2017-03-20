@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       post :join
       post :quit
     end
-    resource :posts
+    resources :posts
   end
 
   namespace :account do
